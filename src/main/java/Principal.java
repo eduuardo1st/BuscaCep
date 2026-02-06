@@ -1,8 +1,23 @@
+import java.io.IOException;
+import java.util.Scanner;
+
 public class Principal {
     public static void main(String[] args) {
-
+        Scanner leitura = new Scanner(System.in);
         ConsultaCep consultaCep = new ConsultaCep();
-        Endereco endereco = consultaCep.buscaEndereco("01001");
-        System.out.println(endereco);
+
+        System.out.println("Digite um CEP para consulta: ");
+        var cep = leitura.nextLine();
+
+        try{
+            Endereco endereco = consultaCep.buscaEndereco(cep);
+            System.out.println(endereco);
+            GeradorDeArquivo gerador = new GeradorDeArquivo();
+            gerador.salvaJson(endereco);
+        }catch (RuntimeException | IOException e){
+            System.out.println(e.getMessage());
+            System.out.println("Encerrando aplicação.");
+        }
+
     }
 }
